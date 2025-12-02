@@ -53,7 +53,39 @@ function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #2.
+    const isInvalidId = (id) => {
+        const idStr = id.toString();
+
+        for (let patternLength = 1;
+             patternLength <= idStr.length / 2;
+             ++patternLength) {
+            if (idStr.length % patternLength !== 0){
+                continue;
+            }
+
+            const pattern = idStr.slice(0, patternLength);
+
+            if (pattern.repeat(idStr.length / patternLength) === idStr) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    let cumulatedInvalidIds = 0;
+
+    for (range of puzzle_input) {
+        for (let idCandidate = range.lowerBoundary;
+             idCandidate <= range.upperBoundary;
+             ++idCandidate) {
+            if (isInvalidId(idCandidate)) {
+                cumulatedInvalidIds += idCandidate;
+            }
+        }
+    }
+
+    return cumulatedInvalidIds;
 }
 
 console.log('SOLUTION::PART-1', solvePuzzlePart1());
