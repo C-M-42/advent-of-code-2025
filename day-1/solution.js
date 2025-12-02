@@ -43,7 +43,21 @@ function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
-  // TODO: Implement solution for Step #2.
+  const RING_SIZE = 100;
+
+  let originPassCount = 0;
+
+  let position = 50;
+  puzzle_input.forEach(({direction, distance}) => {
+    for (let i = 0; i < distance; ++i) {
+      position = (position + direction + RING_SIZE) % RING_SIZE;
+      if (position === 0) {
+        ++originPassCount;
+      }
+    }
+  });
+
+  return originPassCount;
 }
 
 console.log('SOLUTION::PART-1', solvePuzzlePart1());
