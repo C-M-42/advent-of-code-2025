@@ -19,5 +19,6 @@ Desktop.ini
 *.swo
 *.bak
 *.bkp
+*.tmp
 *_autosave
 .vscode
