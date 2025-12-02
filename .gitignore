@@ -1,0 +1,23 @@
+# ignore IntelliJ-specific stuff
+.idea/
+
+# ignore build artifacts, compiled files, and other generated files
+target/
+gen/
+dist/
+
+# ignore OS-generated and temporary files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.directory
+.xsession-errors
+.cache/
+.local/share/Trash/
+*~
+*.swp
+*.swo
+*.bak
+*.bkp
+*_autosave
+.vscode
