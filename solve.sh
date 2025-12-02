@@ -1,6 +1,13 @@
 #!/bin/bash
 
-DAY=1
+DAY=$1
+
+clear
+
+if [[ -z "$DAY" || "$DAY" -le 0 || "$DAY" -gt 24 ]]; then
+  echo "<< PLEASE SPECIFY A DAY (1 - 24) >>"
+  exit 1
+fi
 
 cd ./day-$DAY
 clear
