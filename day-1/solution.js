@@ -9,28 +9,37 @@ function readPuzzleInputAsString(file = 'puzzle-input.txt') {
 }
 
 function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
-  let puzzleInput = [[], []];
+  let puzzleInput = []
   puzzleInputAsString
     .split(/\r?\n/)
     .forEach(line => {
       if (line.trim()) {
-        puzzleInput[0].push(Number(line.split(/[ ]+/)[0]));
-        puzzleInput[1].push(Number(line.split(/[ ]+/)[1]));
+        puzzleInput.push({
+          direction: line.charAt(0).toUpperCase() === 'L' ? -1 : 1,
+          distance: Number(line.substr(1))
+        });
       }
     });
   return puzzleInput;
 }
 
 function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
-  const A = puzzle_input[0].sort();
-  const B = puzzle_input[1].sort();
+  const RING_SIZE = 100;
 
-  let d = 0;
-  A.forEach((a, i) => {
-    const b = B[i];
-    d += Math.abs(a - b);
+  let originStopCount = 0;
+
+  let position = 50;
+  puzzle_input.forEach(({direction, distance}) => {
+    position += distance * direction;
+    position = ((position % RING_SIZE) + RING_SIZE) % RING_SIZE;
+
+    if (position === 0 || position === RING_SIZE) {
+      position = 0;
+      ++originStopCount;
+    }
   });
-  return d;
+
+  return originStopCount;
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
