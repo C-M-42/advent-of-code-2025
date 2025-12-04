@@ -1,8 +1,10 @@
+// noinspection JSUnresolvedReference
+// noinspection DuplicatedCode
+
 function readPuzzleInputAsString(file = 'puzzle-input.txt') {
   const fs = require('node:fs');
   try {
-    const data = fs.readFileSync(file, 'utf8');
-    return data;
+    return fs.readFileSync(file, 'utf8');
   } catch (err) {
     console.error('FAILED_TO_READ_PUZZLE_INPUT', err);
   }
@@ -16,7 +18,7 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
       if (line.trim()) {
         puzzleInput.push({
           direction: line.charAt(0).toUpperCase() === 'L' ? -1 : 1,
-          distance: Number(line.substr(1))
+          distance: Number(line.substring(1))
         });
       }
     });
