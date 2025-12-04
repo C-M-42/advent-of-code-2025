@@ -42,7 +42,25 @@ function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #2.
+    let total = 0;
+
+    puzzle_input
+        .forEach(bank => {
+            const digits = [ Math.max(...bank.slice(0, -(12 - 1))) ];
+
+            for (let d = 12 - 1; d > 0; --d) {
+                bank = bank.slice(bank.indexOf(digits.at(-1)) + 1);
+                if (d <= 1) {
+                    digits.push(Math.max(...bank.slice(0)));
+                } else {
+                    digits.push(Math.max(...bank.slice(0, -(d - 1))));
+                }
+            }
+
+            total += Number(digits.join(''));
+        });
+
+    return total;
 }
 
 console.log('SOLUTION::PART-1', solvePuzzlePart1());
