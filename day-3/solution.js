@@ -25,7 +25,20 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
 }
 
 function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #1.
+    let total = 0;
+
+    puzzle_input
+        .forEach(bank => {
+            const firstDigit =
+                Math.max(...bank.slice(0, -1));
+
+            const secondDigit =
+                Math.max(...bank.slice(bank.indexOf(firstDigit) + 1));
+
+            total += (firstDigit * 10 + secondDigit);
+        });
+
+    return total;
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
