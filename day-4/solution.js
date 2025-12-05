@@ -81,7 +81,67 @@ function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #2.
+    const lastPosition = {
+        x: puzzle_input[0].length - 1,
+        y: puzzle_input.length - 1
+    };
+
+    const isPositionFree = (x, y) => {
+        return puzzle_input[y][x] !== '@' && puzzle_input[y][x] === '.';
+    };
+
+    const isPositionAccessible = (x, y) => {
+        const surroundingPositionCandidates = [
+            {x: x - 1, y: y - 1},
+            {x: x - 1, y: y},
+            {x: x - 1, y: y + 1},
+
+            {x: x + 1, y: y - 1},
+            {x: x + 1, y: y},
+            {x: x + 1, y: y + 1},
+
+            {x: x, y: y - 1},
+            {x: x, y: y + 1}
+        ];
+
+        let nonAccessiblePositionsCount = 0;
+        surroundingPositionCandidates
+            .filter((candidate) => {
+                return (
+                    candidate.x < 0
+                    || candidate.y < 0
+                    || candidate.y > lastPosition.y
+                    || candidate.x > lastPosition.x
+                ) !== true;
+            })
+            .filter((position) => {
+                return !isPositionFree(position.x, position.y);
+            })
+            .forEach(() => {
+                ++nonAccessiblePositionsCount;
+            });
+
+        return nonAccessiblePositionsCount < 4;
+    };
+
+    let result = 0;
+    let rollsRemoved;
+    do {
+        rollsRemoved = 0;
+
+        for (let row = 0; row <= lastPosition.y; ++row) {
+            for (let column = 0; column <= lastPosition.x; ++column) {
+                if (!isPositionFree(column, row)
+                    && isPositionAccessible(column, row)) {
+                    ++rollsRemoved;
+                    puzzle_input[row][column] = '.';
+                    ++result;
+                }
+            }
+        }
+    } while (rollsRemoved > 0);
+
+    return result;
 }
 
 console.log('SOLUTION::PART-1', solvePuzzlePart1());
