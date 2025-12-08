@@ -37,7 +37,14 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
 }
 
 function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #1.
+    return puzzle_input.ids.filter(id => {
+        for (let range of puzzle_input.freshRanges) {
+            if (id >= range.min && id <= range.max) {
+                return true;
+            }
+        }
+        return false;
+    }).length;
 }
 
 function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
