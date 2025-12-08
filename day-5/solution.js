@@ -36,9 +36,9 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
     return puzzleInput;
 }
 
-function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
-    return puzzle_input.ids.filter(id => {
-        for (let range of puzzle_input.freshRanges) {
+function solvePuzzlePart1(puzzleInput = parsePuzzleInput()) {
+    return puzzleInput.ids.filter(id => {
+        for (let range of puzzleInput.freshRanges) {
             if (id >= range.min && id <= range.max) {
                 return true;
             }
@@ -47,8 +47,25 @@ function solvePuzzlePart1(puzzle_input = parsePuzzleInput()) {
     }).length;
 }
 
-function solvePuzzlePart2(puzzle_input = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #2.
+function solvePuzzlePart2(puzzleInput = parsePuzzleInput()) {
+    const ranges = puzzleInput.freshRanges.sort((a, b) => a.min - b.min);
+
+    const unionRanges = [ranges[0]];
+
+    for (let range of ranges) {
+        const last = unionRanges[unionRanges.length - 1];
+
+        if (range.min <= last.max) {
+            last.max = Math.max(last.max, range.max);
+        } else {
+            unionRanges.push(range);
+        }
+    }
+
+    let total = 0;
+    unionRanges.forEach(r => total += (r.max - r.min + 1));
+
+    return total;
 }
 
 console.log('SOLUTION::PART-1', solvePuzzlePart1());
