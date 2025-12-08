@@ -24,7 +24,25 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
 }
 
 function solvePuzzlePart1(puzzleInput = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #1.
+    let total = 0;
+    for (let p = puzzleInput[0].length - 1; p >= 0; --p) {
+        let result;
+        for (let n = puzzleInput.length - 2; n >= 0; --n) {
+            if (result === undefined) {
+                result = Number(puzzleInput[n][p].trim());
+            } else {
+                const operation = puzzleInput[4][p].trim();
+                if (operation === '+') {
+                    result += Number(puzzleInput[n][p].trim());
+                } else {
+                    result *= Number(puzzleInput[n][p].trim());
+                }
+            }
+        }
+
+        total += result;
+    }
+    return total;
 }
 
 function solvePuzzlePart2(puzzleInput = parsePuzzleInput()) {
