@@ -24,7 +24,33 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
 }
 
 function solvePuzzlePart1(puzzleInput = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #1.
+    let splits = 0;
+
+    let m = [...puzzleInput];
+    for (let y = 0; y < m.length; ++y) {
+        if (y < 1) {
+            continue;
+        }
+
+        for (let x = 0; x < m[y].length; ++x) {
+            if (!(m[y - 1][x] === 'S' || m[y - 1][x] === '|')) {
+                continue;
+            }
+
+            if (m[y][x] !== '^') {
+                m[y][x] = '|';
+            } else {
+                ++splits;
+
+                if(x + 1 < m[y].length)
+                    m[y][x + 1] = '|';
+                if (!(x - 1 < 0))
+                    m[y][x - 1] = '|';
+            }
+        }
+    }
+
+    return splits;
 }
 
 function solvePuzzlePart2(puzzleInput = parsePuzzleInput()) {
