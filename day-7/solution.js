@@ -11,26 +11,13 @@ function readPuzzleInputAsString(file = 'puzzle-input.txt') {
 }
 
 function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
-    const puzzleInput = {
-        freshRanges: [],
-        ids: []
-    };
-
-    let isParsingRanges = true;
+    let puzzleInput = []
     puzzleInputAsString
         .trim()
         .split(/\r?\n/)
         .forEach(line => {
-            if (line.trim() === '') {
-                isParsingRanges = false;
-            } else if (isParsingRanges) {
-                const rangeBoundaries = line.trim().split('-');
-                puzzleInput.freshRanges.push({
-                    min: Number(rangeBoundaries[0]),
-                    max: Number(rangeBoundaries[1])
-                });
-            } else {
-                puzzleInput.ids.push(Number(line.trim()));
+            if (line.trim()) {
+                puzzleInput.push(line.trim().split(''));
             }
         });
     return puzzleInput;
