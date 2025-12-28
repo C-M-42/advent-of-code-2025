@@ -10,7 +10,7 @@ function readPuzzleInputAsString(file = 'puzzle-input.txt') {
     }
 }
 
-function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
+function parsePuzzleInput1(puzzleInputAsString = readPuzzleInputAsString()) {
     const puzzleInput = [];
 
     puzzleInputAsString
@@ -23,10 +23,31 @@ function parsePuzzleInput(puzzleInputAsString = readPuzzleInputAsString()) {
     return puzzleInput;
 }
 
-function solvePuzzlePart1(puzzleInput = parsePuzzleInput()) {
+function parsePuzzleInput2(puzzleInputAsString = readPuzzleInputAsString()) {
+    const puzzleInput = [{operands: []}];
+
+    const raw = puzzleInputAsString.trim().split(/\r?\n/);
+    for (let i = raw[0].length - 1; i >= 0; --i) {
+        if (raw.filter(l => l[i] !== ' ').length === 0) {
+            puzzleInput.push({operands: []});
+            continue;
+        }
+
+        puzzleInput.at(-1)['operands'].push(
+            Number(raw[0][i] + raw[1][i] + raw[2][i] + raw[3][i]));
+
+        if (raw[4][i] !== ' ') {
+            puzzleInput.at(-1)['operation'] = raw[4][i];
+        }
+    }
+
+    return puzzleInput;
+}
+
+function solvePuzzlePart1(puzzleInput = parsePuzzleInput1()) {
     let total = 0;
     for (let p = puzzleInput[0].length - 1; p >= 0; --p) {
-        let result;
+        let result = undefined;
         for (let n = puzzleInput.length - 2; n >= 0; --n) {
             if (result === undefined) {
                 result = Number(puzzleInput[n][p].trim());
@@ -45,8 +66,18 @@ function solvePuzzlePart1(puzzleInput = parsePuzzleInput()) {
     return total;
 }
 
-function solvePuzzlePart2(puzzleInput = parsePuzzleInput()) {
-    // TODO: Implement solution for Step #2.
+function solvePuzzlePart2(puzzleInput = parsePuzzleInput2()) {
+    let result = 0;
+
+    puzzleInput.forEach(p => {
+        let r = p.operands.pop();
+        for (let o of p.operands) {
+            r = p.operation === "*" ? r * o : r + o;
+        }
+        result += r;
+    });
+
+    return result;
 }
 
 console.log('SOLUTION::PART-1', solvePuzzlePart1());
